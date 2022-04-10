@@ -28,6 +28,14 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "build": { "include": [ "@ui-kitten/components" ] }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app wants to access your photos."
+        }
+      ]
+    ]
   }
 }
