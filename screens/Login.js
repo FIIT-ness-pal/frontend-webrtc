@@ -9,7 +9,7 @@ const Login = ({navigation}) => {
             <TextInput style={styles.input} placeholder="Email" />
             <TextInput style={styles.input} placeholder="Password" name="password" secureTextEntry/>
             
-            <Button style={styles.button} title='Login' onPress={() => navigation.navigate('App')} />
+            <Button style={styles.button} title='Login' onPress={() => navigation.navigate('Screens')} />
             <View style={{marginTop: 20}}> 
                 <Text> Don't have an account yet?</Text>
                 <Button style={styles.button} onPress={() => navigation.navigate('Register')} title='Register' />
