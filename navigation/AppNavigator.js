@@ -14,7 +14,7 @@ const AppNavigator = () => {
             <Stack.Screen name="Auth" component={Auth} />        
             <Stack.Screen name="Screens" component={Screens} options={{title: ""}}/>
             </Stack.Navigator>
-      </NavigationContainer>
+        </NavigationContainer>
     )
 }
 

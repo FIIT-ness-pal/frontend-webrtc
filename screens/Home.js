@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button, SafeAreaView, FlatList } from 'react-native'
 import colors from '../config/colors'
-
-import Ionicons from "react-native-vector-icons/Ionicons";
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const Item = ({ time, title, calories }) => (
