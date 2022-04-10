@@ -17,6 +17,7 @@ const Item = ({ time, title, calories }) => (
     </View>
 );
 
+
 const Homescreen = ({ navigation }) => {
     const [greeting, setGreeting] = useState('')
     const [totalCalories, setTotalCalories] = useState(0)
@@ -140,13 +141,13 @@ const Homescreen = ({ navigation }) => {
             {/* Logs */}
             <View style={{ paddingTop: 20 }}>
                 <View style={{ flexDirection: 'row', }}>
-                    <Pressable style={{ float: 'left', flex: 1 }} onPressOut={logsBack()}>
+                    <Pressable style={{ float: 'left', flex: 1 }} onPressOut={() => logsBack()}>
                         <Text style={{ textAlign: 'left', fontSize: 40 }}>{'<'}</Text>
                     </Pressable>
                     <View style={{ float: 'center', flex: 1 }}>
                         <Text style={{ fontSize: 25, textAlign: 'center' }}>{`History\n${today.getDate()}.${today.getMonth() + 1}. ${today.getFullYear()}`}</Text>
                     </View>
-                    <Pressable style={{ float: 'right', flex: 1, }}  onPressOut={logsForward()}>
+                    <Pressable style={{ float: 'right', flex: 1, }}  onPressOut={() => logsForward()}>
                         <Text style={{ textAlign: 'right', fontSize: 40 }}>{'>'}</Text>
                     </Pressable>
                 </View>

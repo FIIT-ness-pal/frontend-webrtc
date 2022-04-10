@@ -11,8 +11,8 @@ const AppNavigator = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={loggedIn ? "Screens" : "Auth"}>
-            <Stack.Screen name="Auth" component={Auth} />        
-            <Stack.Screen name="Screens" component={Screens} options={{title: ""}}/>
+                <Stack.Screen name="Auth" component={Auth} />        
+                <Stack.Screen name="Screens" component={Screens} />
             </Stack.Navigator>
         </NavigationContainer>
     )

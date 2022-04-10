@@ -9,6 +9,7 @@ import {
 	Keyboard,
 	TouchableWithoutFeedback,
 } from "react-native";
+import colors from "../config/colors";
 
 const Register = ({ navigation }) => {
 	return (
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	input: {
-		backgroundColor: "#EFEFEF",
+		backgroundColor: colors.input,
 		borderRadius: 5,
 		width: 200,
 		height: 40,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	bodyInput: {
-		backgroundColor: "#EFEFEF",
+		backgroundColor: colors.input,
 		borderRadius: 5,
 		width: 65,
 		height: 40,
