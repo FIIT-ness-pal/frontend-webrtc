@@ -113,7 +113,7 @@ const Homescreen = ({ navigation }) => {
             {/* Top message */}
             <View style={{ top: 10, backgroundColor: colors.primary, padding: 10, borderRadius: 5 }}>
                 <Text style={styles.text}>{greeting}</Text>
-                <Button title='Log meal' />
+                <Button title='Add to log' />
             </View>
             {/* Intake */}
             <View style={{ alignItems: 'center', paddingTop: 50 }}>

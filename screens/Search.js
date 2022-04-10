@@ -1,45 +1,45 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Text, View, TouchableWithoutFeedback, SafeAreaView, TextInput, StyleSheet, Dimensions, Keyboard, Pressable, Button, FlatList } from 'react-native';
 import colors from '../config/colors';
 
 const Item = ({ title, calories, id }) => (
-	<View style={{flexDirection: 'row'}}>
-	  <View style={{flex: 1, float: 'left', paddingLeft: 15, paddingBottom: 20}}>
-		<Text numberOfLines={1} style={{fontSize: 20}}>{title}</Text>
-		<Text>{calories} cal</Text>
-	  </View>
-	  <View style={{flex: 1, float: 'right'}}>
-		<Button title='Show' style={{float: 'right'}} />
-	  </View>
+	<View style={{ flexDirection: 'row' }}>
+		<View style={{ flex: 1, float: 'left', paddingLeft: 15, paddingBottom: 20 }}>
+			<Text numberOfLines={1} style={{ fontSize: 20 }}>{title}</Text>
+			<Text>{calories} cal</Text>
+		</View>
+		<View style={{ flex: 1, float: 'right' }}>
+			<Button title='Show' style={{ float: 'right' }} />
+		</View>
 	</View>
-  );
+);
 
-const Search = ({navigation}) => {
+const Search = ({ navigation }) => {
 	const [active, setActive] = useState('Meals')
 
 	const data = [
-        {
-            "id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d701",
-            "name": "Grilled chicken with basmati rice",
-            "description": "",
-            "calories": 1,
-            "carbs": 1,
-            "fat": 1,
-            "protein": 1,
-            "isPublic": true
-        },
 		{
-            "id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d702",
-            "name": "Chicken with apples",
-            "description": "",
-            "calories": 1,
-            "carbs": 1,
-            "fat": 1,
-            "protein": 1,
-            "isPublic": true
-        },
-		
-    ]
+			"id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d701",
+			"name": "Grilled chicken with basmati rice",
+			"description": "",
+			"calories": 1,
+			"carbs": 1,
+			"fat": 1,
+			"protein": 1,
+			"isPublic": true
+		},
+		{
+			"id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d702",
+			"name": "Chicken with apples",
+			"description": "",
+			"calories": 1,
+			"carbs": 1,
+			"fat": 1,
+			"protein": 1,
+			"isPublic": true
+		},
+
+	]
 	const handleMealPress = () => {
 		setActive('Meals')
 	}
@@ -49,22 +49,20 @@ const Search = ({navigation}) => {
 	}
 	const renderItem = ({ item }) => (
 		<Item title={item.name} id={item.id} calories={item.calories} />
-	  );
+	);
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<SafeAreaView style={{
-				flex: 1,
-			}}>
-				<Pressable onPress={() => {navigation.goBack()}}>
-					<Text style={{fontSize: 30, textAlignVertical: 'top', padding: 10}}>{'< Back'}</Text>
+			<SafeAreaView>
+				<Pressable onPress={() => { navigation.goBack() }}>
+					<Text style={{ fontSize: 30, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
 				</Pressable>
 				<TextInput style={styles.input} placeholder="Search" name="search" />
 				{/* Top buttons */}
 				<View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 2, margin: 10 }}>
 					<Pressable onPress={() => handleMealPress()} style={{ flex: 1 }}>
-						<Text style={{fontSize: 20, textAlign: 'center', fontWeight: active === 'Meals' ? 'bold' : 'normal' }}>Meals</Text>
+						<Text style={{ fontSize: 20, textAlign: 'center', fontWeight: active === 'Meals' ? 'bold' : 'normal' }}>Meals</Text>
 					</Pressable>
-					<Pressable onPress={() => {handleFoodPress()}} style={{ flex: 1}}>
+					<Pressable onPress={() => { handleFoodPress() }} style={{ flex: 1 }}>
 						<Text style={{ fontSize: 20, textAlign: 'center', fontWeight: active === 'Foods' ? 'bold' : 'normal' }}>Foods</Text>
 					</Pressable>
 				</View>
