@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		marginTop: 22
+		marginTop: 22,
 	  },
 	  modalView: {
 		margin: 20,
 		backgroundColor: "white",
 		borderRadius: 20,
-		padding: 35,
+		padding: 10,
 		alignItems: "center",
 		shadowColor: "#000",
 		shadowOffset: {

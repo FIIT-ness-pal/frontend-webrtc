@@ -6,7 +6,7 @@ import Search from "../screens/Search";
 import Add from "../screens/CreateMeal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function Screens() {
+export default function TabNabigation() {
   const Tab = createBottomTabNavigator();
 
   return (

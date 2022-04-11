@@ -77,7 +77,7 @@ const Register = ({ navigation }) => {
 				<Button
 					style={styles.button}
 					title="Register"
-					onPress={() => navigation.navigate("Screens")}
+					onPress={() => navigation.navigate("TabNavigation")}
 				/>
 			</View>
 		</TouchableWithoutFeedback>

@@ -8,26 +8,26 @@ const Item = ({ title, brand, calories }) => {
     const [amount, setAmount] = useState('0') 
     const [text, onChangeText] = useState('')
     return (
-    <View style={{padding: 10, flexDirection: 'row'}}>
-        <Modal
-        animationType="none"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-          <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-                <Text>Enter the amount in grams</Text>
-                <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
-                <View style={{flexDirection:'row'}}>
-                    <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
-                    <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
-                </View>
-          </View>
-        </View>
-      </Modal>
+        <View style={{padding: 10, flexDirection: 'row'}}>
+            <Modal
+            animationType="none"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+            setModalVisible(!modalVisible);
+            }}
+        >
+            <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+                    <Text>Enter the amount in grams</Text>
+                    <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
+                    <View style={{flexDirection:'row'}}>
+                        <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
+                        <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
+                    </View>
+            </View>
+            </View>
+        </Modal>
         <View style={{flex: 1, float: 'left'}}>
             <Text style={{fontSize: 20}}>{title}</Text>
             <Text>{brand}</Text>

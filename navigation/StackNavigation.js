@@ -2,10 +2,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Register from '../screens/Register';
 import Login from '../screens/Login';
-import Screens from './Screens'
-import MealDetails from '../screens/MealDetails';
+import TabNavigation from './TabNavigation'
+import MealDetails from '../screens/MealDetails'
+import CreateMeal from '../screens/CreateMeal'
 
-export default function Auth() {
+export default function StackNavigation() {
   
   const Stack = createNativeStackNavigator();
 
@@ -13,9 +14,9 @@ export default function Auth() {
     <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} options={{title: 'Login'}}/>
         <Stack.Screen name="Register" component={Register} options={{headerShown: true, title: ""}}/>
-        <Stack.Screen name="Screens" component={Screens} />
-        
+        <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="MealDetails" component={MealDetails} />
+        <Stack.Screen name="CreateMeal" component={CreateMeal} />
     </Stack.Navigator>  
   );
 }

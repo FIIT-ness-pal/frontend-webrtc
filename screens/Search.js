@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableWithoutFeedback, SafeAreaView, TextInput, StyleSheet, Dimensions, Keyboard, Pressable, Button, FlatList } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, SafeAreaView, TextInput, StyleSheet, Dimensions, Keyboard, Pressable, Button, FlatList, Modal } from 'react-native';
 import colors from '../config/colors';
+import styles from '../config/styles';
 
 const Item = ({ title, calories, id, navigation }) => {
 	return (	
@@ -18,6 +19,7 @@ const Item = ({ title, calories, id, navigation }) => {
 
 const Search = ({ navigation }) => {
 	const [active, setActive] = useState('Meals')
+	const [modalVisible, setModalVisible] = useState(false)
 
 	const data = [
 		{
@@ -61,11 +63,36 @@ const Search = ({ navigation }) => {
 		</View>
 	);
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+		
+		<TouchableWithoutFeedback onPress={() => {Keyboard.dismiss(); setModalVisible(false)}}>
 			<SafeAreaView>
-				<Pressable onPress={() => { navigation.goBack() }}>
-					<Text style={{ fontSize: 30, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
-				</Pressable>
+				<Modal
+					animationType="none"
+					transparent={true}
+					visible={modalVisible}
+					onRequestClose={() => {
+						setModalVisible(!modalVisible);
+					}}
+					>
+					<View style={styles.centeredView} >
+						<View style={styles.modalView} >
+							<View  style={{padding: 10,}}>
+								<Button title='Create meal'onPress={() => {setModalVisible(false), navigation.navigate('CreateMeal')}}/>
+							</View>
+							<View  style={{padding: 10,}}>
+								<Button title='Create food' style={{margin: 20, padding: 20}} onPress={() =>{setModalVisible(false), navigation.navigate('CreateMeal')}}/>
+							</View>	
+							<View  style={{padding: 10,}}>
+								<Button title='Cancel' style={{margin: 20, padding: 20}} onPress={() => setModalVisible(false)}/>
+							</View>	
+						</View>
+					</View>
+				</Modal>
+				{/* Top buttons */}
+                <View style={{flexDirection:'row'}}>
+					<View style={{flex: 1, float: 'left'}} />
+                    <Button style={{flex: 1, float: 'right', padding: 10}} title={'Create'} onPress={() => setModalVisible(true)}/>
+                </View>
 				<TextInput style={styles.input} placeholder="Search" name="search" />
 				{/* Top buttons */}
 				<View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 2, margin: 10 }}>
@@ -87,14 +114,5 @@ const Search = ({ navigation }) => {
 	);
 }
 
-const styles = StyleSheet.create({
-	input: {
-		backgroundColor: colors.input,
-		borderRadius: 5,
-		width: Dimensions.get('window').width,
-		height: 40,
-		fontSize: 20,
-		margin: 10,
-	},
-})
+
 export default Search;
