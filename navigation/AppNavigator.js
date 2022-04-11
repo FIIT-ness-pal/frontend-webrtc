@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Screens from './Screens';
 import Auth from './Auth';
+import Details from './Details'
 
 const AppNavigator = () => {
     const loggedIn = false

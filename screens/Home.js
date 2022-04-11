@@ -26,7 +26,7 @@ const Homescreen = ({ navigation }) => {
     const [totalFat, setTotalFat] = useState(0)
 
     const today = new Date()
-    const hour = 0
+    const hour = today.getHours()
 
     const user = {
         "id": "b05f7ef7-ad07-4a25-8363-cdeafd369d62",

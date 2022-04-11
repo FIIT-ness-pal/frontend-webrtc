@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { Text, View, TouchableWithoutFeedback, SafeAreaView, TextInput, StyleSheet, Dimensions, Keyboard, Pressable, Button, FlatList } from 'react-native';
 import colors from '../config/colors';
 
-const Item = ({ title, calories, id }) => (
-	<View style={{ flexDirection: 'row' }}>
-		<View style={{ flex: 1, float: 'left', paddingLeft: 15, paddingBottom: 20 }}>
-			<Text numberOfLines={1} style={{ fontSize: 20 }}>{title}</Text>
-			<Text>{calories} cal</Text>
+const Item = ({ title, calories, id, navigation }) => {
+	return (	
+		<View style={{ flexDirection: 'row' }}>
+			<View style={{ flex: 1, float: 'left', paddingLeft: 15, paddingBottom: 20 }}>
+				<Text numberOfLines={1} style={{ fontSize: 20 }}>{title}</Text>
+				<Text>{calories} cal</Text>
+			</View>
+			<View style={{ flex: 1, float: 'right' }}>
+				<Button title='Show' style={{ float: 'right' }} onPress={() => navigation.goBack()} />
+			</View>
 		</View>
-		<View style={{ flex: 1, float: 'right' }}>
-			<Button title='Show' style={{ float: 'right' }} />
-		</View>
-	</View>
-);
+	)
+};
 
 const Search = ({ navigation }) => {
 	const [active, setActive] = useState('Meals')
@@ -48,7 +50,15 @@ const Search = ({ navigation }) => {
 		setActive('Foods')
 	}
 	const renderItem = ({ item }) => (
-		<Item title={item.name} id={item.id} calories={item.calories} />
+		<View style={{ flexDirection: 'row' }}>
+			<View style={{ flex: 1, float: 'left', paddingLeft: 15, paddingBottom: 20 }}>
+				<Text numberOfLines={1} style={{ fontSize: 20 }}>{item.name}</Text>
+				<Text>{item.calories} cal</Text>
+			</View>
+			<View style={{ flex: 1, float: 'right' }}>
+				<Button title='Show' style={{ float: 'right' }} onPress={() => navigation.navigate('MealDetails')} />
+			</View>
+		</View>
 	);
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -1,23 +1,48 @@
-import React from 'react'
-import { TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, Pressable, View, Button, TextInput, FlatList } from 'react-native'
+import React, {useState} from 'react'
+import { TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, Pressable, View, Button, TextInput, FlatList, Modal } from 'react-native'
 import styles from '../config/styles'
 
-const Item = ({ title, brand, calories }) => (
+
+const Item = ({ title, brand, calories }) => {
+    const [modalVisible, setModalVisible] = useState(false)
+    const [amount, setAmount] = useState('0') 
+    const [text, onChangeText] = useState('')
+    return (
     <View style={{padding: 10, flexDirection: 'row'}}>
+        <Modal
+        animationType="none"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+          <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+                <Text>Enter the amount in grams</Text>
+                <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
+                <View style={{flexDirection:'row'}}>
+                    <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
+                    <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
+                </View>
+          </View>
+        </View>
+      </Modal>
         <View style={{flex: 1, float: 'left'}}>
             <Text style={{fontSize: 20}}>{title}</Text>
             <Text>{brand}</Text>
-            <Text>{calories}</Text>
+            <Text>{calories} cal</Text>
         </View>
         <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
             <Text style>Amount</Text>
-            <TextInput style={{...styles.input, width: 50,}} keyboardType='number-pad'/>
+            <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={amount} onPressOut={() => {setModalVisible(true)}}/>
         </View>
         <View style={{flex: 0.2, float: 'right', justifyContent: 'center'}}>
             <Button title={'X'} style={{}}/>
         </View>
     </View>
-  );
+    )
+};
 
 const CreateMeal = ({navigation}) => {
     const [mealName, setMealName] = React.useState('')
@@ -29,6 +54,7 @@ const CreateMeal = ({navigation}) => {
 
     const data = [
         {
+            "id": 0,
             "name": "Strawberry",
             "brand": "",
             "amount": 20,
@@ -38,6 +64,7 @@ const CreateMeal = ({navigation}) => {
             "protein": 100
         },
         {
+            "id": 1,
             "name": "Banana",
             "brand": "",
             "amount": 20,
@@ -58,7 +85,7 @@ const CreateMeal = ({navigation}) => {
                 {/* Top buttons */}
                 <View style={{flexDirection:'row'}}>
                     <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
-                        <Text style={{ fontSize: 30, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
+                        <Text style={{ fontSize: 25, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
                     </Pressable>
                     <Button style={{flex: 1, float: 'right', padding: 10}} title={'Create'} />
                 </View>
