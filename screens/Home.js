@@ -10,7 +10,7 @@ const Item = ({ time, title, calories }) => (
             <Text style={{ textAlign: 'left', fontSize: 20, paddingLeft: 10 }}>{`${time.split(':')[0]}:${time.split(':')[1]}`}</Text>
         </View>
         <View style={{ float: 'center', flex: 1 }}>
-            <Text style={{ textAlign: 'center', fontSize: 20 }}>{title}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 20 }} numberOfLines={1}>{title}</Text>
         </View>
         <View style={{ float: 'left', flex: 1 }}>
             <Text style={{ textAlign: 'right', fontSize: 20, paddingRight: 10 }}>{calories} cal</Text>
@@ -21,9 +21,9 @@ const Item = ({ time, title, calories }) => (
 
 const Homescreen = ({ navigation }) => {
     const [greeting, setGreeting] = useState('')
-    const [user, setUser] = useState({ name: "Peter", caloriesGoal: 2400 })
+    const [caloriesGoal, setCaloriesGoal] = useState(0)
     const [values, setValues] = useState(0)
-    const [date, setDate] = useState(new Date(2022, 2, 30))
+    const [date, setDate] = useState(new Date())
     const [logs, setLogs] = useState([])
     const hour = new Date().getHours()
 
@@ -56,17 +56,18 @@ const Homescreen = ({ navigation }) => {
             console.log('JSON /user', response)
             return
         }
-        if (json.status == 201) {
-            setUser({ name: json.message.firstName, caloriesGoal: json.message.caloriesGoal })
+        console.log(json.message.firstName)
+        if (json.status == 200) {
+            setCaloriesGoal(json.message.caloriesGoal)
         }
 
         if (hour < 11)
-            setGreeting(`Good morning, ${user.name}.\nWhat did you have for breakfast?`)
+            setGreeting(`Good morning, ${json.message.firstName}.\nWhat did you have for breakfast?`)
         else if (hour < 16)
-            setGreeting(`Hello, ${user.name}.\nWhat did you have for lunch?`)
+            setGreeting(`Hello, ${json.message.firstName}.\nWhat did you have for lunch?`)
         else
-            setGreeting(`Good evening, ${user.name}.\nWhat did you have for dinner?`)
-    }, [user])
+            setGreeting(`Good evening, ${json.message.firstName}.\nWhat did you have for dinner?`)
+    }, [])
 
     /* Update values */
     useEffect(() => {
@@ -80,14 +81,13 @@ const Homescreen = ({ navigation }) => {
             totalProtein += log.protein
             totalFat += log.fat
         })
-        setValues({ calories: totalCalories, carbs: totalCarbs, protein: totalProtein, fat: totalFat })
+        setValues({ calories: parseFloat(totalCalories.toString()).toFixed(2), carbs: parseFloat(totalCarbs.toString()).toFixed(2), protein: parseFloat(totalProtein.toString()).toFixed(2), fat: parseFloat(totalFat.toString()).toFixed(2) })
     }, [logs])
 
     /* Get the logs of the day */
     useEffect(async () => {
-        const myDate = `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${Number(date.getDate()) < 10 ? '0' + date.getDate() : date.getDate()}`
-        console.log(`https://fiitness-pal.ey.r.appspot.com/log?date=${myDate}`)
-        const token = await AsyncStorage.getItem('@accessToken')
+        const myDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+       const token = await AsyncStorage.getItem('@accessToken')
         if (token == null) {
             navigation.navigate('Login')
             return
@@ -114,7 +114,6 @@ const Homescreen = ({ navigation }) => {
             console.log('JSON /logs', JSON.stringify(response))
             return
         }
-        console.log(json)
         if (json.status == 200) {
             setLogs(json.logs)
         }
@@ -153,7 +152,7 @@ const Homescreen = ({ navigation }) => {
             {/* Intake */}
             <View style={{ alignItems: 'center', paddingTop: 50 }}>
                 <Text style={{ fontSize: 40 }}>Your intake</Text>
-                <Text style={{ fontSize: 70 }}>{`${values.calories} /\n${user.caloriesGoal}`}</Text>
+                <Text style={{ fontSize: 70 }}>{`${values.calories} /\n${caloriesGoal}`}</Text>
             </View>
             {/* Detailed intake */}
             <View style={{ alignContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
