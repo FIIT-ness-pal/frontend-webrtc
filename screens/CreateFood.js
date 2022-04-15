@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, Pressable, View, Button, TextInput, FlatList, Modal, Switch } from 'react-native'
 import { ScrollView } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import styles from '../config/styles'
 
 const Macro = ({title}) => {
@@ -29,7 +30,7 @@ const CreateFood = ({navigation}) => {
 
     const [isEnabled, setIsEnabled] = useState(false);
 
-    const postFood = () => {
+    const postFood = async () => {
         if(foodName.length == 0) {
             alert('Please enter a name for the food');
             return;
@@ -39,14 +40,43 @@ const CreateFood = ({navigation}) => {
             "name": foodName,
             "description": description,
             "brand": brand,
-            "calories": calories == "" ? 0 : calories,
-            "carbs": carbs == "" ? 0 : carbs,
-            "protein": protein == "" ? 0 : protein,
-            "fat": fat == "" ? 0 : fat,
+            "calories": calories == "" ? 0 : Number(calories),
+            "carbs": carbs == "" ? 0 : Number(carbs),
+            "protein": protein == "" ? 0 : Number(protein),
+            "fat": fat == "" ? 0 : Number(fat),
             "isPublic": isEnabled
         }
         
-        
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token == null) {
+            navigation.navigate('Login')
+            return
+        }
+
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/food', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                },
+                body: JSON.stringify(body)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log("error json", JSON.stringify(response))
+        }
+        console.log("json", json)
+        navigation.navigate('Home')
     }
 
     return(
