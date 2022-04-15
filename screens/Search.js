@@ -42,7 +42,17 @@ const Search = ({ navigation }) => {
 			"protein": 1,
 			"isPublic": true
 		},
-
+		{         
+			"id": "eff39dd1-19eb-4094-8fef-bab28c3e2665",
+			"name": "Frosted flakes",         
+			"brand": "Kelloggs",         
+			"description": "",         
+			"calories": 382.35,         
+			"carbs": 88.24,         
+			"fat": 0,         
+			"protein": 5.88,         
+			"isPublic": true     
+		}
 	]
 	const handleMealPress = () => {
 		setActive('Meals')
@@ -58,7 +68,7 @@ const Search = ({ navigation }) => {
 				<Text>{item.calories} cal</Text>
 			</View>
 			<View style={{ flex: 1, float: 'right' }}>
-				<Button title='Show' style={{ float: 'right' }} onPress={() => navigation.navigate('MealDetails')} />
+				<Button title='Show' style={{ float: 'right' }} onPress={() => navigation.navigate('FoodDetails')} />
 			</View>
 		</View>
 	);

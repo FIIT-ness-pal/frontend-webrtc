@@ -7,39 +7,43 @@ const Item = ({ title, brand, calories }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [amount, setAmount] = useState('0') 
     const [text, onChangeText] = useState('')
+    
     return (
         <View style={{padding: 10, flexDirection: 'row'}}>
             <Modal
-            animationType="none"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-            setModalVisible(!modalVisible);
-            }}
-        >
-            <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-                    <Text>Enter the amount in grams</Text>
-                    <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
-                    <View style={{flexDirection:'row'}}>
-                        <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
-                        <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
+                animationType="none"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text>Enter the amount in grams</Text>
+                        <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
+                        <View style={{flexDirection:'row'}}>
+                            <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
+                            <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
+                        </View>
                     </View>
+                </View>
+            </Modal>
+
+            <View style={{flex: 1, float: 'left'}}>
+                <Text style={{fontSize: 20}}>{title}</Text>
+                <Text>{brand}</Text>
+                <Text>{calories} cal</Text>
             </View>
+
+            <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
+                <Text style>Amount</Text>
+                <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={amount} onPressOut={() => {setModalVisible(true)}}/>
             </View>
-        </Modal>
-        <View style={{flex: 1, float: 'left'}}>
-            <Text style={{fontSize: 20}}>{title}</Text>
-            <Text>{brand}</Text>
-            <Text>{calories} cal</Text>
-        </View>
-        <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
-            <Text style>Amount</Text>
-            <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={amount} onPressOut={() => {setModalVisible(true)}}/>
-        </View>
-        <View style={{flex: 0.2, float: 'right', justifyContent: 'center'}}>
-            <Button title={'X'} style={{}}/>
-        </View>
+
+            <View style={{flex: 0.2, float: 'right', justifyContent: 'center'}}>
+                <Button title={'X'} style={{}}/>
+            </View>
     </View>
     )
 };
@@ -77,7 +81,7 @@ const CreateMeal = ({navigation}) => {
 
     const renderItem = ({ item }) => (
         <Item title={item.name} brand={item.brand} calories={item.calories} />
-      );
+    );
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
