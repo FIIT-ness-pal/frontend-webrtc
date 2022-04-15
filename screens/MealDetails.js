@@ -51,6 +51,7 @@ const MealDetails = ({route, navigation}) => {
       );
     return(
         <SafeAreaView>
+<<<<<<< HEAD
              {/* Top buttons */}
              <View style={{flexDirection:'row'}}>
                     <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
@@ -62,38 +63,51 @@ const MealDetails = ({route, navigation}) => {
                 <View style={{padding: 10}}>
                     <Text style={{fontSize: 30, padding: 20, textAlign: 'center'}}>{meal.name}</Text>
                     <Text style={{textAlign:'right'}}>{`${meal.firstName} ${meal.lastName}`}</Text>
+=======
+            {/* Top buttons */}
+            <View style={{flexDirection:'row'}}>
+                <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
+                    <Text style={{ fontSize: 25, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
+                </Pressable>
+                <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} />
+            </View>
+            {/* Title */}
+            <View style={{padding: 10}}>
+                <Text style={{fontSize: 30, padding: 20, textAlign: 'center'}}>{meal.name}</Text>
+                <Text style={{textAlign:'right'}}>Name Surname</Text>
+            </View>
+            {/* Values */}
+            <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black'}}>
+                <View style={{flex: 1}}>
+                    <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.calories}\nCalories`}</Text>
+>>>>>>> a1f81c14f4eedf10c657e08e4a47be71b141cb4a
                 </View>
-                {/* Values */}
-                <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black'}}>
-                    <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.calories}\nCalories`}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.carbs}\nCarbs`}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.fat}\nFat`}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.protein}\nProtein`}</Text>
-                    </View>
+                <View style={{flex: 1}}>
+                    <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.carbs}\nCarbs`}</Text>
                 </View>
-                <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20, paddingTop: 20}}/>
-                {/* Details */}
-                <View style={{padding: 10}}>
-                    <Text style={{fontSize: 20}}>Description:</Text>
-                    <Text style={{fontSize: 15, padding: 20}}>{meal.description}</Text>
+                <View style={{flex: 1}}>
+                    <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.fat}\nFat`}</Text>
                 </View>
-                <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20}}/>
-                {/* Ingredients */}
-                <View style={{padding: 10}}>
-                    <Text style={{fontSize: 20}}>Ingredients:</Text>
-                    <FlatList
-                        data={meal.ingredients}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                    />
+                <View style={{flex: 1}}>
+                    <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.protein}\nProtein`}</Text>
                 </View>
+            </View>
+            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20, paddingTop: 20}}/>
+            {/* Details */}
+            <View style={{padding: 10}}>
+                <Text style={{fontSize: 20}}>Description:</Text>
+                <Text style={{fontSize: 15, padding: 20}}>{meal.description}</Text>
+            </View>
+            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20}}/>
+            {/* Ingredients */}
+            <View style={{padding: 10}}>
+                <Text style={{fontSize: 20}}>Ingredients:</Text>
+                <FlatList
+                    data={meal.ingredients}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
+            </View>
         </SafeAreaView>
     )
 }
