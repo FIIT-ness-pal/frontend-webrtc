@@ -2,10 +2,68 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Text, View, Image, Button, StyleSheet, TouchableWithoutFeedback, Keyboard, SafeAreaView, TextInput, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
-    const [image, setImage] = useState('https://i.ibb.co/0Gq2600/avatar.png');
+    
+    const [user, setUser] = useState({
+        "caloriesGoal": 0,
+        "email": "",
+        "firstName": "",
+        "height": 0,
+        "lastName": "",
+        "weight": 0,
+    });
 
+    const [image, setImage] = useState('https://i.ibb.co/0Gq2600/avatar.png');
+    const [firstName, onChangeFirstName] = useState(null)
+    const [lastName, onChangeLastName] = useState(null)
+    const [email, onChangeEmail] = useState(null)
+    const [password, onChangePassword] = useState(null)
+    const [passwordConfirm, onChangePasswordConfirm] = useState(null)
+    const [weight, onChangeWeight] = useState(null)
+    const [height, onChangeHeight] = useState(null)
+    const [caloriesGoal, onChangeCaloriesGoal] = useState(null)
+
+
+    useEffect(async () => {
+        const token = await AsyncStorage.getItem('@accessToken');
+        if (token == null) {
+            navigation.navigate('Login');
+            return;
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/user', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log(JSON.stringify(response))
+        }
+        setUser(json.message)
+    }, [])
+
+    useEffect(() => {
+        onChangeFirstName(user.firstName)
+        onChangeLastName(user.lastName)
+        onChangeEmail(user.email)
+        onChangeWeight(user.weight.toString())
+        onChangeHeight(user.height.toString())
+        onChangeCaloriesGoal(user.caloriesGoal.toString())
+    }, [user])
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -22,7 +80,56 @@ const Profile = () => {
     const saveProfilePic = () => {
     }
 
-    const saveProfile = () => {
+    const saveProfile = async () => {
+        console.log(JSON.stringify({
+            "caloriesGoal": Number(caloriesGoal),
+            "email": email,
+            "firstName": firstName,
+            "height": Number(height),
+            "lastName": lastName,
+            "weight": Number(weight),
+            "password": password,
+            "passwordConfirm": passwordConfirm,
+            "birthDate": "1990-10-10"
+        }))
+        const token = await AsyncStorage.getItem('@accessToken');
+        if (token == null) {
+            navigation.navigate('Login');
+            return;
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/user', {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                },
+                body: JSON.stringify({
+                    "caloriesGoal": Number(caloriesGoal),
+                    "email": email,
+                    "firstName": firstName,
+                    "height": Number(height),
+                    "lastName": lastName,
+                    "weight": Number(weight),
+                    "password": password,
+                    "passwordConfirm": passwordConfirm,
+                    "birthDate": "1990-10-10"
+                })
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log("error json", JSON.stringify(response))
+        }
+        console.log("json", json)
     }
 
     return (
@@ -46,10 +153,19 @@ const Profile = () => {
 
                     <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
                         <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                            <Text style={styles.text}>Name</Text>
+                            <Text style={styles.text}>First name</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} value={firstName} onChangeText={onChangeFirstName}></TextInput>
+                        </View>
+                    </View>
+
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Last name</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input} value={lastName} onChangeText={onChangeLastName}></TextInput>
                         </View>
                     </View>
 
@@ -58,7 +174,7 @@ const Profile = () => {
                             <Text style={styles.text}>Height</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} value={height} onChangeText={onChangeHeight}></TextInput>
                         </View>
                     </View>
 
@@ -67,7 +183,7 @@ const Profile = () => {
                             <Text style={styles.text}>Weight</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} value={weight}  onChangeText={onChangeWeight} ></TextInput>
                         </View>
                     </View>
 
@@ -76,7 +192,7 @@ const Profile = () => {
                             <Text style={styles.text}>Calories</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} value={caloriesGoal} onChangeText={onChangeCaloriesGoal}></TextInput>
                         </View>
                     </View>
 
@@ -85,7 +201,7 @@ const Profile = () => {
                             <Text style={styles.text}>E-mail</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} value={email} onChangeText={onChangeEmail}></TextInput>
                         </View>
                     </View>
 
@@ -94,7 +210,16 @@ const Profile = () => {
                             <Text style={styles.text}>Password</Text>
                         </View>
                         <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                            <TextInput style={styles.input}></TextInput>
+                            <TextInput style={styles.input} secureTextEntry onChangeText={onChangePassword} value={password}></TextInput>
+                        </View>
+                    </View>
+
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Confirm password</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input} secureTextEntry onChangeText={onChangePasswordConfirm} value={passwordConfirm}></TextInput>
                         </View>
                     </View>
 

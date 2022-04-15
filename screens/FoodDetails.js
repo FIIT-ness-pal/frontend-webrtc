@@ -1,25 +1,96 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, Pressable, View, Button, TextInput, FlatList, Modal } from 'react-native'
 import styles from '../config/styles'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const FoodDetails = ({navigation}) => {
-    let food = {         
-        "id": "eff39dd1-19eb-4094-8fef-bab28c3e2665",
-        "name": "Frosted flakes",         
-        "brand": "Kelloggs",         
-        "description": "",         
-        "calories": 382.35,         
-        "carbs": 88.24,         
-        "fat": 0,         
-        "protein": 5.88,         
-        "isPublic": true     
-    }
-
+const FoodDetails = ({route, navigation}) => {
+    const [food, setFood] = useState({})
     const [modalVisible, setModalVisible] = useState(false)
-    const [amount, setAmount] = useState('0')
+    const [amount, setAmount] = useState('100')
     const [text, onChangeText] = useState('')
+    const {id} = route.params
 
+    useEffect(async () => {
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token == null) {
+            navigation.navigate('Login')
+            return
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/food?id=' + id, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log(JSON.stringify(response))
+        }
+        setFood(json.food)
+    }, [])
+
+    const addToLog = async () => {
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token == null) {
+            navigation.navigate('Login')
+            return
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/log', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                },
+                body: JSON.stringify({
+                    name: food.name,
+                    amount: Number(amount),
+                    calories: Number(amount * food.calories / 100),
+                    protein: Number(amount * food.protein / 100),
+                    carbs: Number(amount * food.carbs / 100),
+                    fat: Number(amount * food.fat / 100),
+                    date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+                    time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                })
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log("error json", JSON.stringify(response))
+        }
+        console.log("json", json)
+        console.log(JSON.stringify({
+            name: food.name,
+            amount: Number(amount),
+            calories: Number(amount * food.calories / 100),
+            protein: Number(amount * food.protein / 100),
+            carbs: Number(amount * food.carbs / 100),
+            fat: Number(amount * food.fat / 100),
+            date: `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
+            time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+        }))
+        //navigation.navigate('Home')
+    } 
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -29,7 +100,7 @@ const FoodDetails = ({navigation}) => {
                     <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
                         <Text style={{ fontSize: 25, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
                     </Pressable>
-                    <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} />
+                    <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} onPress={addToLog}/>
                 </View>
 
                 {/* Title */}
@@ -39,23 +110,24 @@ const FoodDetails = ({navigation}) => {
                 </View>
 
                 {/* Values */}
-                <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 1, marginBottom: 50}}>
+                <View style={{padding: 5, flexDirection: 'row'}}>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${food.calories}\nCalories`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.calories / 100}\nCalories`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${food.carbs}\nCarbs`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.carbs / 100}\nCarbs`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${food.fat}\nFat`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.fat / 100}\nFat`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${food.protein}\nProtein`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.protein / 100}\nProtein`}</Text>
                     </View>
                 </View>
-
+                
+                <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20}}/>
                 {/* Details */}
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                <View style={{flexDirection: 'row', width: 300, padding: 20}}>
                     <View style={{flex: 1, float: 'left', paddingLeft: 100, justifyContent: 'center'}}>
                         <Text style={{fontSize: 20}}>Amount</Text>
                     </View>
@@ -63,7 +135,8 @@ const FoodDetails = ({navigation}) => {
                         <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={amount} onPressOut={() => {setModalVisible(true)}}/>
                     </View> 
                 </View>
-
+                
+            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20}}/>
                 {/* Modal */}
                 <Modal
                     animationType="none"

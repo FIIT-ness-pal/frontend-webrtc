@@ -5,7 +5,49 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const MealDetails = ({route, navigation}) => {
     const {id} = route.params
     const [meal, setMeal] = useState({name: "", description: "", calories: 0, carbs: 0, fat: 0, protein: 0, ingredients: [], firstName: "", lastName: ""})
+    const [amount, setAmount] = useState(null)
 
+    const addToLog = async () => {
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token == null) {
+            navigation.navigate('Login')
+            return
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/log', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                },
+                body: JSON.stringify({
+                    name: meal.name,
+                    amount: Number(amount),
+                    calories: meal.calories,
+                    protein: meal.protein,
+                    carbs: meal.carbs,
+                    fat: meal.fat,
+                    date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+                    time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+                })
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log("error json", JSON.stringify(response))
+        }
+        console.log("json", json)
+        navigation.navigate('Home')
+    } 
+    
     useEffect(async () => {
         console.log('https://fiitness-pal.ey.r.appspot.com/meals?id=' + id)
         const token = await AsyncStorage.getItem('@accessToken')
@@ -51,25 +93,12 @@ const MealDetails = ({route, navigation}) => {
       );
     return(
         <SafeAreaView>
-<<<<<<< HEAD
-             {/* Top buttons */}
-             <View style={{flexDirection:'row'}}>
-                    <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
-                        <Text style={{ fontSize: 25, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
-                    </Pressable>
-                    <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} />
-                </View>
-                {/* Title */}
-                <View style={{padding: 10}}>
-                    <Text style={{fontSize: 30, padding: 20, textAlign: 'center'}}>{meal.name}</Text>
-                    <Text style={{textAlign:'right'}}>{`${meal.firstName} ${meal.lastName}`}</Text>
-=======
             {/* Top buttons */}
             <View style={{flexDirection:'row'}}>
                 <Pressable onPress={() => { navigation.goBack() }} style={{flex: 1, float: 'left'}}>
                     <Text style={{ fontSize: 25, textAlignVertical: 'top', padding: 10 }}>{'< Back'}</Text>
                 </Pressable>
-                <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} />
+                <Button style={{flex: 1, float: 'right', padding: 10}} title={'Add'} onPress={addToLog} />
             </View>
             {/* Title */}
             <View style={{padding: 10}}>
@@ -80,7 +109,6 @@ const MealDetails = ({route, navigation}) => {
             <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black'}}>
                 <View style={{flex: 1}}>
                     <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.calories}\nCalories`}</Text>
->>>>>>> a1f81c14f4eedf10c657e08e4a47be71b141cb4a
                 </View>
                 <View style={{flex: 1}}>
                     <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.carbs}\nCarbs`}</Text>

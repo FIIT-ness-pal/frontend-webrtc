@@ -47,11 +47,11 @@ export default function TabNabigation() {
         
       })}
     >
-      <Tab.Screen name="Call" component={Call} />
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Add" component={Add} />
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Call" component={Call} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Home" component={Home} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Add" component={Add} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Search" component={Search} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Profile" component={Profile} options={{unmountOnBlur: true}}/>
     </Tab.Navigator>
   );
 }
