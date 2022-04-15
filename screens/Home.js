@@ -94,7 +94,7 @@ const Homescreen = ({ navigation }) => {
         }
         let response
         try {
-            response = await fetch(`http://192.168.241.168:3000/log?date=${myDate}`, {
+            response = await fetch(`https://fiitness-pal.ey.r.appspot.com/log?date=${myDate}`, {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',

@@ -1,37 +1,42 @@
-import React from 'react'
 import {View, Text, SafeAreaView, Pressable, Button, FlatList} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const MealDetails = ({navigation}) => {
-    const meal = {
-        "id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d701",
-        "name": "Grilled chicken with basmati rice",
-        "description": "Very tasty chicken yum yum ",
-        "calories": 1,
-        "carbs": 1,
-        "fat": 1,
-        "protein": 1,
-        "isPublic": true,
-        "ingredients": [
-            {
-                "id": "99527d7f-df31-40e7-9e95-408260f2b48c",
-                "name": "Grilled chicken",
-                "amount": 20,
-                "calories": 100,
-                "carbs": 100,
-                "fat": 100,
-                "protein": 100
-            },
-            {
-                "id": "bca1ce1d-f226-4932-afeb-844342e37875",
-                "name": "Basmati rice",
-                "amount": 20,
-                "calories": 100,
-                "carbs": 100,
-                "fat": 100,
-                "protein": 100
-            }
-        ]
-    }
+const MealDetails = ({route, navigation}) => {
+    const {id} = route.params
+    const [meal, setMeal] = useState({name: "", description: "", calories: 0, carbs: 0, fat: 0, protein: 0, ingredients: [], firstName: "", lastName: ""})
+
+    useEffect(async () => {
+        console.log('https://fiitness-pal.ey.r.appspot.com/meals?id=' + id)
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token == null) {
+            navigation.navigate('Login')
+            return
+        }
+        let response
+        try {
+            response = await fetch('https://fiitness-pal.ey.r.appspot.com/meal?id=' + id, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: token
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+        let json
+        try {
+            json = await response.json()
+        }
+        catch {
+            console.log(JSON.stringify(response))
+        }
+        setMeal(json.meal)
+    }, [])
+
     const renderItem = ({ item }) => (
         <View style={{padding: 10, flexDirection: 'row'}}>
             <View style={{flex: 1, float: 'left'}}>
@@ -56,7 +61,7 @@ const MealDetails = ({navigation}) => {
                 {/* Title */}
                 <View style={{padding: 10}}>
                     <Text style={{fontSize: 30, padding: 20, textAlign: 'center'}}>{meal.name}</Text>
-                    <Text style={{textAlign:'right'}}>Name Surname</Text>
+                    <Text style={{textAlign:'right'}}>{`${meal.firstName} ${meal.lastName}`}</Text>
                 </View>
                 {/* Values */}
                 <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black'}}>
