@@ -44,7 +44,7 @@ const Item = ({ title, brand, calories }) => {
             <View style={{flex: 0.2, float: 'right', justifyContent: 'center'}}>
                 <Button title={'X'} style={{}}/>
             </View>
-    </View>
+        </View>
     )
 };
 

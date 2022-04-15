@@ -50,46 +50,10 @@ const Search = ({ navigation }) => {
 		console.log(json)
 	}
 
-<<<<<<< HEAD
 	useEffect(() => {
 		sendRequest()
 	}, [active])
 
-=======
-	const data = [
-		{
-			"id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d701",
-			"name": "Grilled chicken with basmati rice",
-			"description": "",
-			"calories": 1,
-			"carbs": 1,
-			"fat": 1,
-			"protein": 1,
-			"isPublic": true
-		},
-		{
-			"id": "b601b5ee-4bd0-4db2-83b4-7d27d6e1d702",
-			"name": "Chicken with apples",
-			"description": "",
-			"calories": 1,
-			"carbs": 1,
-			"fat": 1,
-			"protein": 1,
-			"isPublic": true
-		},
-		{         
-			"id": "eff39dd1-19eb-4094-8fef-bab28c3e2665",
-			"name": "Frosted flakes",         
-			"brand": "Kelloggs",         
-			"description": "",         
-			"calories": 382.35,         
-			"carbs": 88.24,         
-			"fat": 0,         
-			"protein": 5.88,         
-			"isPublic": true     
-		}
-	]
->>>>>>> a1f81c14f4eedf10c657e08e4a47be71b141cb4a
 	const handleMealPress = () => {
 		setActive('meals')
 	}
@@ -104,13 +68,9 @@ const Search = ({ navigation }) => {
 				<Text>{item.calories} cal</Text>
 			</View>
 			<View style={{ flex: 1, float: 'right' }}>
-<<<<<<< HEAD
 				<Button title='Details' style={{ float: 'right' }} onPress={() => navigation.navigate(active == 'meals' ? 'MealDetails' : 'FoodDetails', {
 					id: item.id
 				})} />
-=======
-				<Button title='Show' style={{ float: 'right' }} onPress={() => navigation.navigate('FoodDetails')} />
->>>>>>> a1f81c14f4eedf10c657e08e4a47be71b141cb4a
 			</View>
 		</View>
 	);
