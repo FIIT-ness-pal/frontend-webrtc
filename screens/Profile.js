@@ -19,83 +19,87 @@ const Profile = () => {
         }
     }
 
+    const saveProfilePic = () => {
+    }
+
     const saveProfile = () => {
     }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeAreaView style={styles.container}>
-                
-                <Text style={{marginBottom: 20, fontSize: 40}}>Profile</Text>
-                
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Profile picture</Text>
+                <ScrollView>
+                    <Text style={{marginBottom: 20, fontSize: 40}}>Profile</Text>
+                    
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Profile picture</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1}}>
+                            <Image source={{uri: image}} style={styles.profilePicture}></Image>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1}}>
-                        <Image source={{uri: image}} style={styles.profilePicture}></Image>
-                    </View>
-                </View>
 
-                <Button style={styles.button} title='Change profile picture' onPress={pickImage} />
+                    <Button style={styles.button} title='Change profile picture' onPress={pickImage} />
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Name</Text>
-                    </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
-                    </View>
-                </View>
+                    <Button style={styles.button} title='Save' onPress={saveProfilePic} />
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Height</Text>
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Name</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
-                    </View>
-                </View>
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Weight</Text>
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Height</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
-                    </View>
-                </View>
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Calories</Text>
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Weight</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
-                    </View>
-                </View>
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>E-mail</Text>
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Calories</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
-                    </View>
-                </View>
 
-                <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
-                    <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
-                        <Text style={styles.text}>Password</Text>
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>E-mail</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                    <View style={{float: 'right', flex: 1, marginRight: 100}}>
-                        <TextInput style={styles.input}></TextInput>
+
+                    <View style={{flexDirection: 'row', width: 300, marginBottom: 10}}>
+                        <View style={{float: 'left', justifyContent: 'center', flex: 1}}>
+                            <Text style={styles.text}>Password</Text>
+                        </View>
+                        <View style={{float: 'right', flex: 1, marginRight: 100}}>
+                            <TextInput style={styles.input}></TextInput>
+                        </View>
                     </View>
-                </View>
 
-                <Button style={styles.button} title='Save' onPress={saveProfile()} />
-
-                
+                    <Button style={styles.button} title='Save' onPress={saveProfile} />
+                </ScrollView>
             </SafeAreaView>
         </TouchableWithoutFeedback>
     );
