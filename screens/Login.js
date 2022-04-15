@@ -1,16 +1,53 @@
-import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState} from 'react'
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
 import colors from '../config/colors';
 
 const Login = ({ navigation }) => {
-	const image = '../assets/favicon.png'
+	const [email, onChangeEmail] = useState(null)
+	const [password, onChangePassword] = useState(null)
+	const [error, setError] = useState(null)
+
+	const sendData = async () => {
+		console.log("password", password, "email", email)
+		if(password === null || email === null)
+			return
+		try {
+			const response = await fetch('https://fiitness-pal.ey.r.appspot.com/login', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: email.toString(),
+					password: password.toString()
+				})
+			})
+			const json = await response.json()
+			if(json.status == 201) {
+				await AsyncStorage.setItem('@accessToken', json.accessToken)
+				const token = await AsyncStorage.getItem('@accessToken')
+				console.log(token)
+				navigation.navigate('TabNavigation')
+			}
+			else {
+				console.log('Invalid')
+				setError('Email or password is incorrect')
+			}
+		}
+		catch(error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<View style={styles.container} >
 			<Text style={{ fontSize: 50, fontWeight: 'bold' }}>FIITness pal</Text>
-			<TextInput style={styles.input} placeholder="Email" />
-			<TextInput style={styles.input} placeholder="Password" name="password" secureTextEntry />
-
-			<Button style={styles.button} title='Login' onPress={() => navigation.navigate('TabNavigation')} />
+			<TextInput style={styles.input} onChangeText={onChangeEmail} value={email} placeholder="Email" />
+			<TextInput style={styles.input} onChangeText={onChangePassword} value={password} placeholder="Password" name="password" secureTextEntry />
+			<Text style={{color: 'red'}}>{error}</Text> 
+			<Button style={styles.button} title='Login' onPress={sendData} />
 			<View style={{ marginTop: 20 }}>
 				<Text> Don't have an account yet?</Text>
 				<Button style={styles.button} onPress={() => navigation.navigate('Register')} title='Register' />

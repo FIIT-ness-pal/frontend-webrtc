@@ -80,7 +80,7 @@ const Search = ({ navigation }) => {
 								<Button title='Create meal'onPress={() => {setModalVisible(false), navigation.navigate('CreateMeal')}}/>
 							</View>
 							<View  style={{padding: 10,}}>
-								<Button title='Create food' style={{margin: 20, padding: 20}} onPress={() =>{setModalVisible(false), navigation.navigate('CreateMeal')}}/>
+								<Button title='Create food' style={{margin: 20, padding: 20}} onPress={() =>{setModalVisible(false), navigation.navigate('CreateFood')}}/>
 							</View>	
 							<View  style={{padding: 10,}}>
 								<Button title='Cancel' style={{margin: 20, padding: 20}} onPress={() => setModalVisible(false)}/>

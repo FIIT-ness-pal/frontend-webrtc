@@ -3,7 +3,7 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import Call from "../screens/Call";
 import Search from "../screens/Search";
-import Add from "../screens/CreateMeal";
+import Add from "../screens/Add";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function TabNabigation() {
