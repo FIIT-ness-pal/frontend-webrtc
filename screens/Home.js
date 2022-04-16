@@ -161,11 +161,14 @@ const Homescreen = ({ navigation }) => {
                     }
                 }
 
-                values['calories'] = parsefloat(values['calories'] - tmpCalories).toFixed(2)
-                values['carbs'] = parsefloat(values['carbs'] - currentItem.carbs).toFixed(2)
-                values['protein'] = parsefloat(values['protein'] - currentItem.protein).toFixed(2)
-                values['fat'] = parsefloat(values['fat'] - currentItem.fat).toFixed(2)
-                setValues(values)
+                setValues(
+                    { 
+                        calories: parseFloat(values.calories - tmpCalories).toFixed(2),
+                        carbs: parseFloat(values.carbs - currentItem.carbs).toFixed(2), 
+                        protein: parseFloat(values.protein - currentItem.protein).toFixed(2), 
+                        fat: parseFloat(values.fat - currentItem.fat).toFixed(2) 
+                    }
+                )
                 setLogs(logs);
             }
             catch {
