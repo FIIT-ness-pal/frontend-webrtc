@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219270326708",
+    "project_id": "fiitness-pal-c6ea5",
+    "storage_bucket": "fiitness-pal-c6ea5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219270326708:android:0182e40fa0b654ecd6aae1",
+        "android_client_info": {
+          "package_name": "com.xabrahoim.frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219270326708-vk966jmn282bqab7i9ti2qpvc9d2c15f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYkreLEOhhVH16XK8ccvq_ErwEUs2a8Ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219270326708-vk966jmn282bqab7i9ti2qpvc9d2c15f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

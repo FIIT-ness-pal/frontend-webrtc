@@ -31,8 +31,8 @@ export default function TabNabigation() {
             case "Search":
                 iconName = "search";
                 break;
-            case "Add":
-                iconName = "add";
+            case " ":
+                iconName = "calculator-outline";
                 break;
             default:
               iconName = "person";
@@ -49,7 +49,7 @@ export default function TabNabigation() {
     >
       <Tab.Screen name="Call" component={Call} options={{unmountOnBlur: true}}/>
       <Tab.Screen name="Home" component={Home} options={{unmountOnBlur: true}}/>
-      <Tab.Screen name="Add" component={Add} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name=" " component={Home} options={{unmountOnBlur: true}}/>
       <Tab.Screen name="Search" component={Search} options={{unmountOnBlur: true}}/>
       <Tab.Screen name="Profile" component={Profile} options={{unmountOnBlur: true}}/>
     </Tab.Navigator>

@@ -228,7 +228,7 @@ const Homescreen = ({ navigation }) => {
             {/* Top message */}
             <View style={{ top: 10, backgroundColor: colors.primary, padding: 10, borderRadius: 5 }}>
                 <Text style={styles.text}>{greeting}</Text>
-                <Button title='Add to log' />
+                <Button title='Add to log' onPress={() => navigation.navigate('Search')}/>
             </View>
             {/* Intake */}
             <View style={{ alignItems: 'center', paddingTop: 50 }}>

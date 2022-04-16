@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const MealDetails = ({route, navigation}) => {
-    const {id} = route.params
+    const { id, fnc } = route.params
     const [meal, setMeal] = useState({name: "", description: "", calories: 0, carbs: 0, fat: 0, protein: 0, ingredients: [], firstName: "", lastName: ""})
     const [amount, setAmount] = useState(null)
 
@@ -84,7 +84,7 @@ const MealDetails = ({route, navigation}) => {
             <View style={{flex: 1, float: 'left'}}>
                 <Text style={{fontSize: 15}}>{item.name}</Text>
                 <Text>{item.brand}</Text>
-                <Text>{item.calories}</Text>
+                <Text>{item.calories} cal</Text>
             </View>
             <View style={{flex: 1, float: 'right'}}> 
                 <Text style={{fontSize: 15, textAlign: 'right'}}>{item.amount} g</Text>
@@ -103,10 +103,10 @@ const MealDetails = ({route, navigation}) => {
             {/* Title */}
             <View style={{padding: 10}}>
                 <Text style={{fontSize: 30, padding: 20, textAlign: 'center'}}>{meal.name}</Text>
-                <Text style={{textAlign:'right'}}>Name Surname</Text>
+                <Text style={{textAlign:'right'}}>{`${meal.firstName} ${meal.lastName}`}</Text>
             </View>
             {/* Values */}
-            <View style={{padding: 5, flexDirection: 'row', borderBottomColor: 'black'}}>
+            <View style={{padding: 5, flexDirection: 'row'}}>
                 <View style={{flex: 1}}>
                     <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.calories}\nCalories`}</Text>
                 </View>
@@ -120,13 +120,13 @@ const MealDetails = ({route, navigation}) => {
                     <Text style={{textAlign: 'center', fontSize: 20}}>{`${meal.protein}\nProtein`}</Text>
                 </View>
             </View>
-            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20, paddingTop: 20}}/>
+            <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginLeft: 20, marginRight: 20, paddingTop: 20}}/>
             {/* Details */}
             <View style={{padding: 10}}>
                 <Text style={{fontSize: 20}}>Description:</Text>
                 <Text style={{fontSize: 15, padding: 20}}>{meal.description}</Text>
             </View>
-            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px', marginLeft: 20, marginRight: 20}}/>
+            <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginLeft: 20, marginRight: 20}}/>
             {/* Ingredients */}
             <View style={{padding: 10}}>
                 <Text style={{fontSize: 20}}>Ingredients:</Text>

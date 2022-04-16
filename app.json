@@ -23,18 +23,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.xabrahoim.frontend"
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "build": { "include": [ "@ui-kitten/components" ] }
+      "build": {
+        "include": [
+          "@ui-kitten/components"
+        ]
+      }
     },
     "plugins": [
       [
         "expo-image-picker",
-        {
-          "photosPermission": "The app wants to access your photos."
-        }
+        "@config-plugins/react-native-webrtc"
       ]
     ]
   }

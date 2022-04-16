@@ -14,10 +14,10 @@ const CreateFood = ({navigation}) => {
     const [brand, onChangeBrand] = useState('');
     const [description, onChangeDescription] = useState('');
 
-    const [calories, setCalories] = useState(0);
-    const [carbs, setCarbs] = useState(0);
-    const [fat, setFat] = useState(0);
-    const [protein, setProtein] = useState(0);
+    const [calories, onChangeCalories] = useState(0);
+    const [carbs, onChangeCarbs] = useState(0);
+    const [fat, onChangeFat] = useState(0);
+    const [protein, onChangeProtein] = useState(0);
 
     const [isEnabled, setIsEnabled] = useState(false);
 
@@ -105,7 +105,7 @@ const CreateFood = ({navigation}) => {
                                 <Text style={{fontSize: 20}}>Calories</Text>
                             </View>
                             <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
-                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={calories.toString()} onPressOut={() => {setModalVisible(true), setOption('Calories')}}/>
+                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} keyboardType={'number-pad'} value={calories.toString()} onChangeText={onChangeCalories} />
                             </View> 
                         </View>
 
@@ -114,7 +114,7 @@ const CreateFood = ({navigation}) => {
                                 <Text style={{fontSize: 20}}>Carbs</Text>
                             </View>
                             <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
-                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={carbs.toString()} onPressOut={() => {setModalVisible(true), setOption('Carbs')}}/>
+                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} keyboardType={'number-pad'} value={carbs.toString()} onChangeText={onChangeCarbs} />
                             </View> 
                         </View>
 
@@ -123,7 +123,7 @@ const CreateFood = ({navigation}) => {
                                 <Text style={{fontSize: 20}}>Fat</Text>
                             </View>
                             <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
-                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={fat.toString()} onPressOut={() => {setModalVisible(true), setOption('Fat')}}/>
+                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} keyboardType={'number-pad'} value={fat.toString()} onChangeText={onChangeFat} />
                             </View> 
                         </View>
 
@@ -132,7 +132,7 @@ const CreateFood = ({navigation}) => {
                                 <Text style={{fontSize: 20}}>Protein</Text>
                             </View>
                             <View style={{flex: 1, float: 'right', alignItems: 'flex-end'}}>
-                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={protein.toString()} onPressOut={() => {setModalVisible(true), setOption('Protein')}}/>
+                                <TextInput style={{...styles.input, width: 50, fontSize: 15}} keyboardType={'number-pad'} value={protein.toString()} onChangeText={onChangeProtein} />
                             </View> 
                         </View>
 
