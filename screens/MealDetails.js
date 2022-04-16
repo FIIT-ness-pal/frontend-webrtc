@@ -45,7 +45,7 @@ const MealDetails = ({route, navigation}) => {
             console.log("error json", JSON.stringify(response))
         }
         console.log("json", json)
-        navigation.navigate('Home')
+        navigation.navigate('Search')
     } 
     
     useEffect(async () => {

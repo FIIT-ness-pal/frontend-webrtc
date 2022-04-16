@@ -89,7 +89,7 @@ const FoodDetails = ({route, navigation}) => {
             date: `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
             time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
         }))
-        navigation.navigate('Home')
+        navigation.navigate('Search')
     } 
 
     return(
