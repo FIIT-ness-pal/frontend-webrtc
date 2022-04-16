@@ -59,10 +59,10 @@ const FoodDetails = ({route, navigation}) => {
                 body: JSON.stringify({
                     name: food.name,
                     amount: Number(amount),
-                    calories: Number(amount * food.calories / 100),
-                    protein: Number(amount * food.protein / 100),
-                    carbs: Number(amount * food.carbs / 100),
-                    fat: Number(amount * food.fat / 100),
+                    calories: Number(parseFloat((amount * food.calories / 100).toString()).toFixed(2)),
+                    protein: Number(parseFloat((amount * food.protein / 100).toString()).toFixed(2)),
+                    carbs: Number(parseFloat((amount * food.carbs / 100).toString()).toFixed(2)),
+                    fat: Number(parseFloat((amount * food.fat / 100).toString()).toFixed(2)),
                     date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
                     time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
                 })
@@ -89,7 +89,7 @@ const FoodDetails = ({route, navigation}) => {
             date: `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
             time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
         }))
-        //navigation.navigate('Home')
+        navigation.navigate('Home')
     } 
 
     return(
@@ -112,16 +112,16 @@ const FoodDetails = ({route, navigation}) => {
                 {/* Values */}
                 <View style={{padding: 5, flexDirection: 'row'}}>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.calories / 100}\nCalories`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${parseFloat((amount * food.calories / 100).toString()).toFixed(2)}\nCalories`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.carbs / 100}\nCarbs`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${parseFloat((amount * food.carbs / 100).toString()).toFixed(2)}\nCarbs`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.fat / 100}\nFat`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${parseFloat((amount * food.fat / 100).toString()).toFixed(2)}\nFat`}</Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${amount * food.protein / 100}\nProtein`}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 20}}>{`${parseFloat((amount * food.protein / 100).toString()).toFixed(2)}\nProtein`}</Text>
                     </View>
                 </View>
                 

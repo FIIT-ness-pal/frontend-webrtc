@@ -4,15 +4,6 @@ import { ScrollView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import styles from '../config/styles'
 
-const Macro = ({title}) => {
-
-    return (
-        <View>
-
-        </View>
-    )
-};
-
 const CreateFood = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [amount, setAmount] = useState('0')

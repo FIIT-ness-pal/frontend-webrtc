@@ -1,22 +1,61 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Button, SafeAreaView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Button, SafeAreaView, FlatList, TouchableOpacity, Modal } from 'react-native'
 import colors from '../config/colors'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Item = ({ time, title, calories }) => (
-    <View style={{ backgroundColor: colors.primary, borderRadius: 5, marginBottom: 10, flexDirection: 'row', width: 300 }}>
-        <View style={{ float: 'left', flex: 1 }}>
-            <Text style={{ textAlign: 'left', fontSize: 20, paddingLeft: 10 }}>{`${time.split(':')[0]}:${time.split(':')[1]}`}</Text>
+const Item = ({ time, title, calories, id, carbs, protein, fat }) => {
+    const [modalVisible, setModalVisible] = useState(false)
+
+    const deleteFromLog = () => {
+        
+    }
+
+    return (
+        <View>
+            <TouchableOpacity style={{ backgroundColor: colors.primary, borderRadius: 5, marginBottom: 10, width: 300}} onPressOut={() => setModalVisible(true)}>
+                <View style={{flexDirection: 'row', width: 300 }}>
+                    <View style={{ float: 'left', flex: 1 }}>
+                        <Text style={{ textAlign: 'left', fontSize: 20, paddingLeft: 10 }}>{`${time.split(':')[0]}:${time.split(':')[1]}`}</Text>
+                    </View>
+                    <View style={{ float: 'left', flex: 1 }}>
+                        <Text style={{ textAlign: 'right', fontSize: 20, paddingRight: 10 }}>{calories} cal</Text>
+                    </View>
+                </View>
+                <View style={{ float: 'center', flex: 1 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 20 }} numberOfLines={2}>{title}</Text>
+                </View>
+            </TouchableOpacity>
+
+            <Modal animationType="none" transparent={true} visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={{textAlign: 'center', fontSize: 25, marginBottom: 10}}>Details</Text>
+                        <View style={{flexDirection: 'row', alignItems:'center'}}>
+                            <View style={{ flex: 1}}> 
+                                <Text style={{textAlign: 'center', fontSize: 20}}>Carbs: {carbs}</Text>
+                            </View>
+                            <View style={{ flex: 1}}>
+                                <Text style={{textAlign:'center', fontSize: 20}}>Protein: {protein}</Text>
+                            </View>
+                            <View style={{flex: 1}}>
+                                <Text style={{textAlign: 'center', fontSize: 20}}>Fat: {fat}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
+                            <Button style={{flex: 1}} title="Delete from log" onPress={() => {setModalVisible(false); deleteFromLog}}/>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
-        <View style={{ float: 'center', flex: 1 }}>
-            <Text style={{ textAlign: 'center', fontSize: 20 }} numberOfLines={1}>{title}</Text>
-        </View>
-        <View style={{ float: 'left', flex: 1 }}>
-            <Text style={{ textAlign: 'right', fontSize: 20, paddingRight: 10 }}>{calories} cal</Text>
-        </View>
-    </View>
-);
+    )
+};
 
 
 const Homescreen = ({ navigation }) => {
@@ -138,6 +177,10 @@ const Homescreen = ({ navigation }) => {
                 title={item.name}
                 calories={item.calories}
                 time={item.time}
+                id={item.id}
+                carbs={item.carbs}
+                protein={item.protein}
+                fat={item.fat}
             />
         );
     };
@@ -207,7 +250,28 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-    }
+    },
+    centeredView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 22,
+	},
+	modalView: {
+		margin: 20,
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 10,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5
+	},
 })
 
 export default Homescreen

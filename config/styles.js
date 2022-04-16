@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		marginTop: 22,
-	  },
-	  modalView: {
+	},
+	modalView: {
 		margin: 20,
 		backgroundColor: "white",
 		borderRadius: 20,
@@ -28,14 +28,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		shadowColor: "#000",
 		shadowOffset: {
-		  width: 0,
-		  height: 2
+			width: 0,
+			height: 2
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
 		elevation: 5
-	  },
-	})
+	},
+	text: {
+        fontSize: 20,
+    }
+})
 
 
 export default styles
