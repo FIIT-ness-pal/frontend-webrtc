@@ -1,9 +1,57 @@
 import React from 'react';
 import { Text, View, Button, SafeAreaView, StatusBar } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
-import { mediaDevices, RTCView, MediaStream, RTCPeerConnection, RTCIceCandidate } from "react-native-webrtc";
-import { firestore } from '@react-native-firebase/firestore'
-import { firebase } from '@react-native-firebase/app'
+import { mediaDevices, RTCView, MediaStream, RTCPeerConnection, RTCIceCandidate, RTCSessionDescription } from "react-native-webrtc";
+import firebase from '@react-native-firebase/app'
+import firestore from '@react-native-firebase/firestore'
+
+const Butt = (press) => {
+    return (
+        <View>
+            <Button title="Call" onPress={() => press} />
+        </View>
+    )
+}
+
+const GettingCall = (joinCall, hangUpCall) => {
+    return (
+        <View>
+            <Button title="Join Call" onPress={joinCall} />
+            <Button title="Hang Up" onPress={hangUpCall} />
+        </View>
+    )
+}
+
+const Video = (hangUp, localStream, remoteStream) => {
+    if(localStream && !remoteStream) {
+        return (
+            <View>
+                <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
+                <View>
+                    <Button title="Hang Up" onPress={hangUp} />
+                </View>
+            </View> 
+        )
+    }
+
+    if(localStream && remoteStream) {
+        return (
+            <View>
+                <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
+                <RTCView streamURL={remoteStream.toURL()} style={{ width: 200, height: 200 }} />
+                <View>
+                    <Button title="Hang Up" onPress={hangUp} />
+                </View>
+            </View> 
+        )
+    }
+    
+    return (
+        <View>
+            <Button title="Hang Up" onPress={hangUp} />
+        </View>
+    )
+}
 
 const Call = () => {
     const configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
@@ -26,13 +74,13 @@ const Call = () => {
             }
 
             // there is offer for callId -> set incoming call state
-            if(data && data.offer && !connecting.current) {
+            if(data && data.offer && !connection.current) {
                 setIncomingCall(true);
             }
         });
 
         // on delete of collection call hangup, other side clicked on hangup
-        let subcribeDelete = callReference.connection('callee').onSnapshot(snapshot => {
+        let subcribeDelete = callReference.collection('callee').onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if(change.type === 'removed') {
                     hangUpCall();
@@ -49,32 +97,30 @@ const Call = () => {
 
     let getStream = async () => {
         let isFront = true;
-        mediaDevices.enumerateDevices().then(sourceInfos => {
-            console.log(sourceInfos);
-            let videoSourceId;
+        let sourceInfos = await mediaDevices.enumerateDevices();
+        console.log(sourceInfos);
+        let videoSourceId;
 
-            for (let i = 0; i < sourceInfos.length; i++) {
-                const sourceInfo = sourceInfos[i];
-                if (sourceInfo.kind == "videoinput" && sourceInfo.facing == (isFront ? "front" : "environment")) {
-                    videoSourceId = sourceInfo.deviceId;
-                }
+        for (let i = 0; i < sourceInfos.length; i++) {
+            const sourceInfo = sourceInfos[i];
+            if (sourceInfo.kind == "videoinput" && sourceInfo.facing == (isFront ? "front" : "environment")) {
+                videoSourceId = sourceInfo.deviceId;
             }
+        }
 
-            mediaDevices.getUserMedia({
-                audio: true,
-                video: {
-                    width: 640,
-                    height: 480,
-                    frameRate: 30,
-                    facingMode: (isFront ? "user" : "environment"),
-                    deviceId: videoSourceId
-                }
-            }).then(stream => {
-                // Got stream!
-            }).catch(error => {
-                // Log error
-            });
+        let stream = await mediaDevices.getUserMedia({
+            audio: true,
+            video: {
+                width: 640,
+                height: 480,
+                frameRate: 30,
+                facingMode: (isFront ? "user" : "environment"),
+                deviceId: videoSourceId
+            }
         });
+
+        if(typeof(stream) != 'boolean') return stream;
+        return null;
     }
 
     let setupWebRTC = async () => {
@@ -93,6 +139,7 @@ const Call = () => {
     }
 
     let createConnection = async () => {
+        console.log('sadas')
         connection.current = true;
         await setupWebRTC();
 
@@ -173,7 +220,7 @@ const Call = () => {
                 await candidate.ref.delete();
             });
 
-            callReference.deleete();
+            callReference.delete();
         }
 
         if(pc.current) {
@@ -209,37 +256,45 @@ const Call = () => {
         // hangup, join
         // return getting call
         return (
-            <></>
+            <View>
+                <Button title="Join Call" onPress={() => joinCall()} />
+                <Button title="Hang Up" onPress={() => hangUpCall()} />
+            </View>
         )
     }
 
     if (localStream) {
         // hangup, local stream, remote stream
         // return video
+        // <Video>
         if(localStream && !remoteStream) {
             return (
                 <View>
-                    <RTCView streamURL={localStream.toURL()} style={{width: '100%', height: '100%'}}/>
-                    <Button title="Hang Up" onPress={hangUpCall}/>
-                </View>
+                    <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
+                    <View>
+                        <Button title="Hang Up" onPress={() => hangUpCall()} />
+                    </View>
+                </View> 
             )
         }
-
+    
         if(localStream && remoteStream) {
             return (
                 <View>
-                    <RTCView streamURL={localStream.toURL()} style={{width: '100%', height: '50%'}}/>
-                    <RTCView streamURL={remoteStream.toURL()} style={{width: '100%', height: '50%'}}/>
-                    <Button title="Hang Up" onPress={hangUpCall}/>
-                </View>
+                    <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
+                    <RTCView streamURL={remoteStream.toURL()} style={{ width: 200, height: 200 }} />
+                    <View>
+                        <Button title="Hang Up" onPress={() => hangUpCall()} />
+                    </View>
+                </View> 
             )
-        }
+        } 
     }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-                <Button title="Call" onPress={joinCall} />
+            <View>
+                <Button title="Call" onPress={() => createConnection()} />
             </View>
         </SafeAreaView>
     );
