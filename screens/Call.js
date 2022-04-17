@@ -56,10 +56,11 @@ const Video = (hangUp, localStream, remoteStream) => {
 const Call = () => {
     const configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
     
-    const [localStream, setLocalStream] = useState(null);
-    const [remoteStream, setRemoteStream] = useState(null);
+    const [localStream, setLocalStream] = useState();
+    const [remoteStream, setRemoteStream] = useState();
     const [incomingCall, setIncomingCall] = useState(false);
 
+    // peer connection
     const pc = useRef();
     const connection = useRef(false);
 
@@ -133,13 +134,17 @@ const Call = () => {
             pc.current.addStream(stream);
         }
 
+        // Get the remote stream
         pc.current.onaddstream = (event) => {
             setRemoteStream(event.stream);
+        }
+
+        pc.current.oniceconnectionstatechange = () => {
+            console.log('ICE state :', pc.current.iceConnectionState);
         }
     }
 
     let createConnection = async () => {
-        console.log('sadas')
         connection.current = true;
         await setupWebRTC();
 
@@ -225,7 +230,7 @@ const Call = () => {
 
         if(pc.current) {
             pc.current.close();
-            pc.current = null;
+            //pc.current = null;
         }
     }
 
@@ -236,7 +241,7 @@ const Call = () => {
             // On new ICE candidate add it to the firestore
             pc.current.onicecandidate = (event) => {
                 if(event.candidate) {
-                    candidateCollection.add({candidate: event.candidate});
+                    candidateCollection.add(event.candidate);
                 }
             }
         }
@@ -244,7 +249,7 @@ const Call = () => {
         // Get the ICE candidate added to the firestore adn update local PC
         callReference.collection(remoteName).onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
-                if(change.type === 'added') {
+                if(change.type == 'added') {
                     let candidate = new RTCIceCandidate(change.doc.data());
                     pc.current.addIceCandidate(candidate);
                 } 
