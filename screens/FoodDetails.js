@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const FoodDetails = ({route, navigation}) => {
     const [food, setFood] = useState({})
     const [modalVisible, setModalVisible] = useState(false)
-    const [amount, setAmount] = useState('100')
+    const [amount, onChangeAmount] = useState('100')
     const [text, onChangeText] = useState('')
     const {id, fnc} = route.params
 
@@ -147,32 +147,11 @@ const FoodDetails = ({route, navigation}) => {
                         <Text style={{fontSize: 20}}>Amount</Text>
                     </View>
                     <View style={{flex:1, float: 'right', alignItems: 'flex-end'}}>
-                        <TextInput style={{...styles.input, width: 50, fontSize: 15}} editable={false} defaultValue={amount} onPressOut={() => {setModalVisible(true)}}/>
+                        <TextInput style={{...styles.input, width: 50, fontSize: 15}} defaultValue={amount} onChangeText={onChangeAmount}/>
                     </View> 
                 </View>
                 
             <View style={{borderBottomColor: 'black', borderBottomWidth: 1, marginLeft: 20, marginRight: 20}}/>
-                {/* Modal */}
-                <Modal
-                    animationType="none"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text>Enter the amount in grams</Text>
-                            <TextInput style={{...styles.input, width: 100, margin: 10}} autoFocus={true} onChangeText={onChangeText} keyboardType='number-pad' />
-                            <View style={{flexDirection:'row'}}>
-                                <Button style={{flex: 1}} title="Cancel" onPress={() => {setModalVisible(false)}}/>  
-                                <Button style={{flex: 1}} title="Confirm" onPress={() => {setAmount(text); setModalVisible(false)}}/>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )

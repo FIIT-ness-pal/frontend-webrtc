@@ -69,7 +69,8 @@ const Search = ({ navigation }) => {
 			</View>
 			<View style={{ flex: 1, float: 'right' }}>
 				<Button title='Details' style={{ float: 'right' }} onPress={() => navigation.navigate(active == 'meals' ? 'MealDetails' : 'FoodDetails', {
-					id: item.id
+					id: item.id,
+					fnc: "addToLog"
 				})} />
 			</View>
 		</View>
@@ -88,7 +89,11 @@ const Search = ({ navigation }) => {
 					<View style={styles.centeredView} >
 						<View style={styles.modalView} >
 							<View style={{ padding: 10, }}>
-								<Button title='Create meal' onPress={() => { setModalVisible(false), navigation.navigate('CreateMeal') }} />
+								<Button title='Create meal' onPress={() => { setModalVisible(false), navigation.navigate('CreateMeal', {
+									food: null,
+									amount: null,
+									}) 
+								}} />
 							</View>
 							<View style={{ padding: 10, }}>
 								<Button title='Create food' style={{ margin: 20, padding: 20 }} onPress={() => { setModalVisible(false), navigation.navigate('CreateFood') }} />

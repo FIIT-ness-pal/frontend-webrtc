@@ -5,54 +5,6 @@ import { mediaDevices, RTCView, MediaStream, RTCPeerConnection, RTCIceCandidate,
 import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore'
 
-const Butt = (press) => {
-    return (
-        <View>
-            <Button title="Call" onPress={() => press} />
-        </View>
-    )
-}
-
-const GettingCall = (joinCall, hangUpCall) => {
-    return (
-        <View>
-            <Button title="Join Call" onPress={joinCall} />
-            <Button title="Hang Up" onPress={hangUpCall} />
-        </View>
-    )
-}
-
-const Video = (hangUp, localStream, remoteStream) => {
-    if(localStream && !remoteStream) {
-        return (
-            <View>
-                <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
-                <View>
-                    <Button title="Hang Up" onPress={hangUp} />
-                </View>
-            </View> 
-        )
-    }
-
-    if(localStream && remoteStream) {
-        return (
-            <View>
-                <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
-                <RTCView streamURL={remoteStream.toURL()} style={{ width: 200, height: 200 }} />
-                <View>
-                    <Button title="Hang Up" onPress={hangUp} />
-                </View>
-            </View> 
-        )
-    }
-    
-    return (
-        <View>
-            <Button title="Hang Up" onPress={hangUp} />
-        </View>
-    )
-}
-
 const Call = () => {
     const configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
     
@@ -96,6 +48,7 @@ const Call = () => {
 
     }, []);
 
+    // Funkcia z oficialneho react-native-webrtc repozitara
     let getStream = async () => {
         let isFront = true;
         let sourceInfos = await mediaDevices.enumerateDevices();
@@ -179,7 +132,7 @@ const Call = () => {
 
         if(offer) {
             await setupWebRTC();
-            // reversed parameters
+            
             collectIceCandidates(callReference, 'callee', 'caller');
 
             if(pc.current) {
@@ -230,7 +183,6 @@ const Call = () => {
 
         if(pc.current) {
             pc.current.close();
-            //pc.current = null;
         }
     }
 
@@ -258,8 +210,6 @@ const Call = () => {
     }
 
     if (incomingCall) {
-        // hangup, join
-        // return getting call
         return (
             <View>
                 <Button title="Join Call" onPress={() => joinCall()} />
@@ -269,9 +219,6 @@ const Call = () => {
     }
 
     if (localStream) {
-        // hangup, local stream, remote stream
-        // return video
-        // <Video>
         if(localStream && !remoteStream) {
             return (
                 <View>
@@ -286,8 +233,10 @@ const Call = () => {
         if(localStream && remoteStream) {
             return (
                 <View>
-                    <RTCView streamURL={localStream.toURL()} style={{ width: 200, height: 200 }} />
-                    <RTCView streamURL={remoteStream.toURL()} style={{ width: 200, height: 200 }} />
+                    <Text>Local stream (you)</Text>
+                    <RTCView streamURL={localStream.toURL()} style={{ width: '100%', height: '40%' }} />
+                    <Text>Remote stream (other)</Text>
+                    <RTCView streamURL={remoteStream.toURL()} style={{ width: '100%', height: '40%' }} />
                     <View>
                         <Button title="Hang Up" onPress={() => hangUpCall()} />
                     </View>
