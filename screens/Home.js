@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Button, SafeAreaView, FlatList, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, StyleSheet, Button, SafeAreaView, FlatList, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native'
 import colors from '../config/colors'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView } from 'react-native-web';
 
 const Item = ({ time, title, calories, id, carbs, protein, fat }) => {
     
@@ -179,7 +180,7 @@ const Homescreen = ({ navigation }) => {
 
         return (
             <View>
-                <TouchableOpacity style={{ backgroundColor: colors.primary, borderRadius: 5, marginBottom: 10, width: 300}} onPressOut={() => {setModalVisible(true); setCurrentItem(item)}}>
+                <TouchableOpacity style={{ backgroundColor: colors.primary, borderRadius: 5, marginBottom: 10, width: 300}} onLongPress={() => {setModalVisible(true); setCurrentItem(item)}}>
                     <View style={{flexDirection: 'row', width: 300 }}>
                         <View style={{ float: 'left', flex: 1 }}>
                             <Text style={{ textAlign: 'left', fontSize: 20, paddingLeft: 10 }}>{`${item.time.split(':')[0]}:${item.time.split(':')[1]}`}</Text>
@@ -225,6 +226,7 @@ const Homescreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            
             {/* Top message */}
             <View style={{ top: 10, backgroundColor: colors.primary, padding: 10, borderRadius: 5 }}>
                 <Text style={styles.text}>{greeting}</Text>
@@ -266,14 +268,15 @@ const Homescreen = ({ navigation }) => {
                 </Pressable>
             </View>
             <View>
-                <View>
+                <View style={{flex: 1, flexGrow: 1, height: '100%'}}>
                     <FlatList
                         data={logs}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
-                    />
+                    />                   
                 </View>
             </View>
+            
         </SafeAreaView>
     )
 }

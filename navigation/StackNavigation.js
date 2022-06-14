@@ -7,9 +7,10 @@ import MealDetails from '../screens/MealDetails'
 import CreateMeal from '../screens/CreateMeal'
 import FoodDetails from '../screens/FoodDetails';
 import CreateFood from '../screens/CreateFood';
+import SearchFood from '../screens/SearchFood'
 
 export default function StackNavigation() {
-  
+
   const Stack = createNativeStackNavigator();
 
   return (
@@ -18,9 +19,10 @@ export default function StackNavigation() {
         <Stack.Screen name="Register" component={Register} options={{headerShown: true, title: ""}}/>
         <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="MealDetails" component={MealDetails} />
-        <Stack.Screen name="CreateMeal" component={CreateMeal} />
+        <Stack.Screen name="CreateMeal" component={CreateMeal} options={{unmountOnBlur: true}}/>
         <Stack.Screen name="CreateFood" component={CreateFood} />
         <Stack.Screen name="FoodDetails" component={FoodDetails} />
-    </Stack.Navigator>  
+        <Stack.Screen name="SearchFood" component={SearchFood} />
+    </Stack.Navigator>
   );
 }
